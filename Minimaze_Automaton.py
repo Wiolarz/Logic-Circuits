@@ -28,7 +28,7 @@ def list_of_text_automatons():
 
     automaton3 = [[1, 0, 0, 0],  # 010
                   [1, 2, 0, 0],
-                  [0, 0, 1, 0]]
+                  [0, 1, 1, 0]]
 
 
 
@@ -41,8 +41,8 @@ def list_of_text_automatons():
                   [0, 0, 1, 0]]
 
     automaton6 = [[0, 1, 0, 0],  # 101
-                  [2, 1, 0, 0],
-                  [0, 0, 0, 1]]
+                  [2, 1, 0, 0],  # 1010101
+                  [0, 1, 0, 1]]
     #
 
     automaton7 = [[0, 1, 0, 0],  # 110
@@ -187,6 +187,56 @@ def triangle(automaton):
     print("MKZ:")
     custom_print(MKZ)
 
+    needed = [i for i in range(len(automaton))]
+    smaller_automaton = []
+    for result in MKZ:
+        adding = False
+        for value in result:
+            if value in needed:
+                adding = True
+                break
+        if adding:
+            smaller_automaton.append(result)
+            for value in result:
+                if value in needed:
+                    needed.remove(value)
+
+    print(smaller_automaton)
+    # reducing smaller automaton
+
+    def reducing_smaller_automaton(smaller_automaton):
+        for i, part in enumerate(smaller_automaton):
+            required_values = part.copy()
+            for j, second_part in enumerate(smaller_automaton):
+                if i == j:
+                    continue
+                to_be_removed = []
+                for value in required_values:
+                    if value in second_part:
+                        to_be_removed.append(value)
+
+                for value in to_be_removed:
+                    required_values.remove(value)
+                    if len(required_values) == 0:
+                        return i
+
+    while True:  # unnecessary
+        score = reducing_smaller_automaton(smaller_automaton)
+        if score is None:
+            break
+        smaller_automaton.pop(score)
+    print("reducing smaller automaton")
+    print(smaller_automaton)
+
+    print("STUFF ------ 0 ----- 1")
+    for part in smaller_automaton:
+        print(part, end=":  ")
+        for binary in [0, 1]:
+            for value in part:
+                if automaton[value][binary] != "-":
+                    print(automaton[value][binary], end=" ")
+            print(" ::  ", end=" ")
+        print()
 
 
 
@@ -220,6 +270,7 @@ def testing_environment():
 
 
 
+
 if __name__ == "__main__":
     print("start")
 
@@ -231,6 +282,18 @@ if __name__ == "__main__":
 12
 1 3 
 
+1:7 1:3 
+4:7 3:4
+1 3 4 7
+
+4:6 4:5
+5:7
+2:8 2:5 3:6 3:5    5:8  6:8 6:7 
+
+
+
+
+2:5:8 3:4:6 3:4:5 4:6:7 4:5:7 1:7 1:3 6:8 
 
 
 """
