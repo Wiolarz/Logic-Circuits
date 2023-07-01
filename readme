@@ -1,3 +1,38 @@
 This project contains a list of small programs that solve tasks from subject "Basics of logic circuits"
 
-Some step by step guides to those tasks are written in polish and not yet translated to english.
+Some step by step guides to those tasks are written in polish and are not yet translated to english.
+
+Programs in order of complexity (from easiest to hardest):
+
+
+
+
+
+
+# mealy_automation
+works only for manually created list of small sized Mealy automatons
+
+After choosing which result is desired, code can provide additional data needed in solved exercise
+
+
+# minimize_automation
+still lacks features at the end
+
+End steps are currently resolved by a trail and error method which are not yet implemented into code
+
+
+
+
+# Minimize_by_expansion
+Finished
+Based on two grids F and R
+generates a set of smaller grids B(x) based on which we generate "minimum column coverage"
+based on those we generate the final grid
+from which we once again generate "minimum column coverage" -> final result
+
+
+
+# minimum_sets
+Finished
+Based on an exercise grid we generate a 3 arrays which we combined to generate their specific mix
+based this mix we generate "minimum column coverage" -> final result
