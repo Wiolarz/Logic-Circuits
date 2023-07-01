@@ -180,10 +180,24 @@ def complex_array_custom_print(array):
     print()
 
 def custom_third_print(array):
+    """
+
+    :param array: list of 4 arrays, each contains integers,
+    but may also contain another integer array on it's first index
+    :return:
+    """
     print(end="{")
+
     for part in array:
         if len(part) == 0:
-            print(part[0] + 1, end="; ")
+            continue
+        if len(part) == 1:
+            if isinstance(part[0], int):
+                print(part[0] + 1, end="; ")
+            else:
+                for value in part[0][:-1]:
+                    print(value + 1, end="_")
+                print(part[0][-1] + 1, end="; ")
             continue
 
         for value in part[:-1]:
@@ -198,6 +212,7 @@ def custom_third_print(array):
                 print(value[-1] + 1, end=", ")
 
         print(part[-1] + 1, end="; ")
+
     print("}")
 
 
@@ -376,7 +391,7 @@ def combination_search(columns, ignore=None):
 
     results = remove_array_duplicates(results)
     array_custom_print(results)
-    print("Correct (to every answer add 2 starting X values):")
+    print("Correct:")
     correct_results = search_for_shortest_result(results)
     correct_results = remove_duplicates(correct_results)
 
@@ -484,6 +499,8 @@ def fourth_step(grid, third):
     comparison_list_rows = []
 
     for part in third:
+        if len(part) == 0:
+            continue
         if isinstance(part[0], int):
             continue
         for value in part[0]:
@@ -492,6 +509,7 @@ def fourth_step(grid, third):
 
     print("lista porownan:", end=" ")
     array_custom_print(comparison_list_rows)
+    print()
 
     comparison_list_x = []
     for pair in comparison_list_rows:
@@ -513,8 +531,9 @@ def fourth_step(grid, third):
                 its_correct = False
         if its_correct:
             correct_comparison_list_x.append(result)
+    print()
     array_custom_print(correct_comparison_list_x)
-
+    print()
     # Now we search for create a grid based on X values
 
     last_grid = []
@@ -530,7 +549,7 @@ def fourth_step(grid, third):
         for value in row:
             last_grid[i][value] = 1
 
-    print("columns")
+    #print("columns")
     '''for row in last_grid:
         print(row)
     print("new")'''
@@ -549,8 +568,9 @@ def method(grid, coordinates):
     # second step: pxm * pxn
     pxm_pxn = method_second_step(pxm, pxn)
     # third step = (pxm*pxn) / pf
+    print("Third_step:")
     third = third_step(grid, pxm_pxn, pf)
-
+    print("Fourth_step:")
     end_results = fourth_step(grid, third)
 
     for row in end_results:
@@ -562,6 +582,12 @@ def method(grid, coordinates):
 
 
 def testing_environment():
+    """
+    READ ME
+    Since data_converter was introduced, you can parse x_a x_b as it's stated in the exercise
+
+    :return:
+    """
     def data_converter(data):
         grid = data[0]
         coordinates = [data[1][0] - 1, data[1][1] - 1]  # we modify coordinates to align with python array index system
@@ -623,9 +649,22 @@ def testing_environment():
              [1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1]]
     grid5_x = [3, 7]
 
-    testing_sets = [[grid1, grid1_x], [grid2, grid2_x], [grid3, grid3_x], [grid4, grid4_x], [grid5, grid5_x]]
+    grid6 = [[1, 0, 0, 0, 1, 0, 1, 0],
+             [1, 0, 1, 1, 1, 1, 0, 0],
+             [1, 1, 0, 1, 1, 1, 0, 0],
+             [1, 1, 1, 0, 1, 1, 1, 0],
 
-    for testing_set_address in range(1, 6):
+             [0, 1, 0, 0, 1, 0, 1, 1],
+             [1, 0, 0, 0, 1, 1, 0, 1],
+             [1, 0, 1, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 1, 0, 1],
+             [1, 1, 1, 0, 1, 0, 1, 1]]
+    grid6_x = [4, 6]
+
+    testing_sets = [[grid1, grid1_x], [grid2, grid2_x], [grid3, grid3_x], [grid4, grid4_x], [grid5, grid5_x],
+                    [grid6, grid6_x]]
+
+    for testing_set_address in [5, 6]:
         data = data_converter(testing_sets[testing_set_address - 1])
         method(data[0], data[1])
         print("\n\n\n")
@@ -639,4 +678,28 @@ if __name__ == "__main__":
     testing_environment()
 
     print("end")
+"""
+1 3 7
+ 23
+ 2 5
+ 2  7
 
+
+
+1  4
+ 2    6
+
+[[0, 1, 0, 0],  # 101
+[2, 0, 0, 0],
+[0, 0, 0, 1]]
+
+101
+001|010
+
+
+A
+
+
+
+
+"""
